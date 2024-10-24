@@ -4,9 +4,8 @@ import MenuBar from "./MenuBar";
 import { RxCross1 } from "react-icons/rx";
 import { MdMenu } from "react-icons/md";
 import { useEffect, useState } from "react";
-import logo from '../../assets/Logo/logo.jpg'
-import companyProfile from "../../assets/companyProfile.pdf"
-
+import logo from "../../assets/Logo/logo.jpg";
+import companyProfile from "../../assets/companyProfile.pdf";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -17,11 +16,12 @@ const Navbar = () => {
     };
 
     window.addEventListener("resize", handleResize);
-   
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [open]); 
+  }, [open]);
+  
   return (
     <div className="bg-bg_primary">
       <div className="navbar max-w-7xl mx-auto px-0 py-4">
@@ -40,14 +40,20 @@ const Navbar = () => {
               )}
             </div>
           </div>
-          <Link to="/" className=" text-text_xxl font-bold text-text_secondary px-2 md:px-0">
+          <Link
+            to="/"
+            className=" text-text_xxl font-bold text-text_secondary px-2 md:px-0"
+          >
             <img src={logo} className="w-28" alt="" />
           </Link>
         </div>
         <div className="navbar-end hidden lg:flex lg:flex-1 ">
           <ul className="flex items-center justify-end gap-gap_primary px-0 w-full">
             <li>
-              <Link to='/' className="text-text_secondary font-semibold text-text_md">
+              <Link
+                to="/"
+                className="text-text_secondary font-semibold text-text_md"
+              >
                 Home
               </Link>
             </li>
@@ -84,7 +90,7 @@ const Navbar = () => {
                   Career
                 </Link>
                 <a
-                  href={companyProfile}                  
+                  href={companyProfile}
                   className="block px-4 py-2 text-text_gray hover:bg-text_secondary hover:text-white"
                 >
                   Company Profile

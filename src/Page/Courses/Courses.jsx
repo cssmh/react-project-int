@@ -15,7 +15,7 @@ const Courses = () => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="mt-16">
+    <div className="mt-5">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {data?.map((course) => {
           const regularPrice = parseFloat(course.regular_price);
@@ -31,7 +31,7 @@ const Courses = () => {
               className="bg-white shadow-lg rounded-lg overflow-hidden"
             >
               <div className="relative">
-                <img src={course?.photo} className="mx-auto" alt={course.course_name} />
+                <img src={course?.photo} className="w-[200px] h-[250px] mx-auto" alt={course.course_name} />
                 <div className="absolute top-0 left-0 p-2">
                   <h3 className="text-white text-xl font-bold">
                     {course.course_name}
@@ -44,7 +44,8 @@ const Courses = () => {
                 </h2>
                 <div className="flex items-center justify-between mb-4">
                   <span className="flex text-blue-500 text-md">
-                    ★★★★★ (no need to change)
+                    ★★★★★ 
+                    {/* (no need to change) */}
                   </span>
                   <span className="ml-2 text-gray-600 text-md font-bold">
                     {course.trainer_data?.name || "Unknown Trainer"}

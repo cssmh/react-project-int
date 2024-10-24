@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useUser from "../../Security/useUser";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import useSmallScreen from "../../Hooks/useSmallScreen";
 
 const NavbarTop = () => {
@@ -13,26 +13,24 @@ const NavbarTop = () => {
   const [isSmallScreen] = useSmallScreen();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const [userData, ,refetch] = useUser();
-  const imgUrl = `https://littleaccount.com/uploads/userProfile/`
-
+  const [userData, , refetch] = useUser();
+  const imgUrl = `https://littleaccount.com/uploads/userProfile/`;
 
   const handleLogout = async () => {
     try {
-      const res = await axiosSecure('/api/logout')
-    if(res.data){
-      navigate('/login')
-      localStorage.removeItem('token')
-      toast.success('Logout Successfully')
-      window.location.reload();
-      refetch()
-    }
+      const res = await axiosSecure("/api/logout");
+      if (res.data) {
+        navigate("/login");
+        localStorage.removeItem("token");
+        toast.success("Logout Successfully");
+        window.location.reload();
+        refetch();
+      }
     } catch (err) {
-      toast.error(err.response.data.message)
+      toast.error(err.response.data.message);
     }
-  }
+  };
 
- 
   const handleClickOutside = (event) => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setOpen(false);
@@ -40,25 +38,25 @@ const NavbarTop = () => {
   };
 
   useEffect(() => {
-  if(isSmallScreen){
-    if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+    if (isSmallScreen) {
+      if (open) {
+        document.addEventListener("mousedown", handleClickOutside);
+      } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }
-  }, [open, isSmallScreen]);
+  }, [handleClickOutside, isSmallScreen, open]);
 
   useEffect(() => {
-    if(isSmallScreen){
-      setOpen(false)
-    } else{
-      setOpen(true)
+    if (isSmallScreen) {
+      setOpen(false);
+    } else {
+      setOpen(true);
     }
-  }, [isSmallScreen, setOpen])
+  }, [isSmallScreen, setOpen]);
 
   return (
     <div className="bg-white py-pt_primary text-_white w-full shadow-md border-b-1 ">
@@ -70,40 +68,53 @@ const NavbarTop = () => {
           />
         </div>
         <div className="hidden lg:block"></div>
-
-        <div
-          className="flex flex-col items-center justify-center text-text_sm font-semibold relative group"
-        >
+        <div className="flex flex-col items-center justify-center text-text_sm font-semibold relative group">
           <div className="flex items-center gap-8">
-          <h1 className="text-blue-500 text-xl font-medium">{userData?.userData.name}</h1>
-         {userData?.userData.image ? 
-         <img
-            className="w-[40px] h-[40px] rounded-full"
-            src={`${imgUrl}${userData.userData.image}`}
-            alt=""
-          /> : 
-          <FaUserCircle className="w-[40px] h-[40px] rounded-full text-black" />}
-          </div>
+            <h1 className="text-blue-500 text-xl font-medium">
+              {userData?.userData.name}
+            </h1>
 
+            {/* Cart Icon */}
+            <Link to={"/cart"}>
+              <FaShoppingCart
+                className="text-black cursor-pointer text-xl"
+                title="Cart"
+              />
+            </Link>
+            {userData?.userData.image ? (
+              <img
+                className="w-[40px] h-[40px] rounded-full"
+                src={`${imgUrl}${userData.userData.image}`}
+                alt="Profile"
+              />
+            ) : (
+              <FaUserCircle className="w-[40px] h-[40px] rounded-full text-black" />
+            )}
+          </div>
           <div className="absolute top-10 right-3 bg-_white shadow-md rounded-sm overflow-hidden pt-2 w-48 z-10 group-hover:scale-100 transition-transform duration-300 transform origin-top-right scale-0">
-            {userData && <Link
-              to="/profile"
-              className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
-            >
-              Profile
-            </Link>}
-            {userData ? <Link
-            onClick={handleLogout}
-              className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
-            >
-              Logout
-            </Link> : 
-            <Link
-            to='/login'
-              className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
-            >
-              Login
-            </Link>}
+            {userData && (
+              <Link
+                to="/profile"
+                className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
+              >
+                Profile
+              </Link>
+            )}
+            {userData ? (
+              <Link
+                onClick={handleLogout}
+                className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="block px-4 py-2 text-black hover:bg-bg_selected hover:text-white"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </ul>
